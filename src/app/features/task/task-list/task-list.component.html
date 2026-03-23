@@ -1,5 +1,15 @@
+<h2>Liste des tâches</h2>
+
+<div>
+    <button (click)="setFilter('all')">Toutes</button>
+    <button (click)="setFilter('completed')">Complétées</button>
+    <button (click)="setFilter('pending')">Non complétées</button>
+</div>
+
 <ul>
-    <li *ngFor="let task of tasks$ | async">
+    <li *ngFor="let task of filteredTasks" (click)="selectTask">
         {{ task.title }}
     </li>
 </ul>
+
+<app-task-detail [task]="selectedTask"></app-task-detail>
