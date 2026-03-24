@@ -33,6 +33,7 @@ export class TaskListComponent {
 
   setFilter(filter: TaskFilter): void {
     this.currentFilter = filter;
+    this.selectedTask = null;
   }
 
   get filteredTasks(): Task[] {
@@ -47,6 +48,10 @@ export class TaskListComponent {
   }
 
   selectTask(task: Task): void {
-    this.selectedTask = task;
+    if (this.selectedTask?.id === task.id) {
+      this.selectedTask = null;
+    } else {
+      this.selectedTask = task;
+    }
   }
 }
