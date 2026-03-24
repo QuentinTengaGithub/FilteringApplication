@@ -1,12 +1,7 @@
-<div *ngIf="task; else noTask">
+<div *ngIf="task">
     <h3>Détail de la tâche</h3>
-    <p><strong>Title: </strong> {{ task.title }}</p>
-    <p><strong>Status: </strong> {{ task.completed ? 'Complétée' : 'Non complétée' }}</p>
-    <p><strong>UserId: </strong> {{ task.userId }}</p>
-    <p><strong>Id: </strong> {{ task.id }}</p>
-</div>
-
-<ng-template #noTask>
-    <p>Aucune tâche sélectionnée.</p>
-</ng-template>
-
+    <p><strong>Title:</strong> {{ task.title }}</p>
+    <p><strong>Status:</strong> {{ task.completed ? 'Complétée' : 'Non complétée' }}</p>
+    <p><strong>UserId:</strong> {{ task.userId }}</p>
+    <p><strong>Id:</strong> {{ task.id }}</p>
+  </div>

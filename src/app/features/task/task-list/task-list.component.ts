@@ -1,11 +1,11 @@
 /* Afficher la liste / Gérer les filtres */
 
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Task } from '../task.model';
 import { TaskService } from '../task.service';
 import { TaskDetailComponent } from '../task-detail/task-detail.component';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 type TaskFilter = 'all' | 'completed' | 'pending';
 
@@ -16,24 +16,31 @@ type TaskFilter = 'all' | 'completed' | 'pending';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
   currentFilter: TaskFilter = 'all';
-  selectedTask: Task | null = null;
+  selectedTaskId: number | null = null;
 
-  constructor(private taskService: TaskService) {}
+  constructor(
+    private taskService: TaskService, 
+    private router: Router,
+    private route: ActivatedRoute,
+    ) {}
 
-  ngOnInit(): void {
-    //Le $ à la fin de tasks$ est une convention pour dire : cette variable contient un Observable
-    
-    this.taskService.getTasks().subscribe((data) => {
-      this.tasks = data;
-    });
-  }
+    ngOnInit(): void {
+      this.taskService.getTasks().subscribe((data) => {
+        this.tasks = data;
+      });
+  
+      this.route.paramMap.subscribe((params) => {
+        const id = params.get('id');
+        this.selectedTaskId = id ? Number(id) : null;
+      });
+    }
 
   setFilter(filter: TaskFilter): void {
     this.currentFilter = filter;
-    this.selectedTask = null;
+    //this.selectedTask = null;
   }
 
   get filteredTasks(): Task[] {
@@ -48,10 +55,14 @@ export class TaskListComponent {
   }
 
   selectTask(task: Task): void {
-    if (this.selectedTask?.id === task.id) {
-      this.selectedTask = null;
+    if (this.selectedTaskId === task.id) {
+      this.router.navigate(['/tasks']);
     } else {
-      this.selectedTask = task;
+      this.router.navigate(['/tasks', task.id]);
     }
+  }
+
+  isSelected(task: Task): boolean {
+    return this.selectedTaskId === task.id;
   }
 }

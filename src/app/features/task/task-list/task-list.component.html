@@ -1,40 +1,17 @@
 <h2>Liste des tâches</h2>
 
 <div>
-    <button 
-        (click)="setFilter('all')"
-        [ngClass]="{active: currentFilter === 'all'}"
-    >
-        Toutes
-    </button>
-    <button 
-        (click)="setFilter('completed')"
-        [ngClass]="{active: currentFilter === 'completed'}"
-    >
-        Complétées
-    </button>
-    <button 
-        (click)="setFilter('pending')"
-        [ngClass]="{active: currentFilter === 'pending'}"
-    >
-        Non complétées
-    </button>
+  <button (click)="setFilter('all')" [ngClass]="{ 'active' : currentFilter === 'all' }">Toutes</button>
+  <button (click)="setFilter('completed')" [ngClass]="{ 'active' : currentFilter === 'completed' }">Complétées</button>
+  <button (click)="setFilter('pending')" [ngClass]="{ 'active' : currentFilter === 'pending' }">Non complétées</button>
 </div>
-
 <ul>
-    <li *ngFor="let task of filteredTasks">
-        <div 
-            (click)="selectTask(task)"
-            [ngClass]="{ 'selected-task': selectedTask?.id === task.id}">
-            {{ task.id }}. {{ task.title }}
-            <div class="task-detail" *ngIf="selectedTask?.id === task.id">
-                <app-task-detail
-                    *ngIf="selectedTask?.id === task.id"
-                    [task]="selectedTask">
-                </app-task-detail>
-            </div>
-        </div>
-        
-    </li>
+  <li *ngFor="let task of filteredTasks">
+    <div (click)="selectTask(task)" [ngClass]="{ 'selected-task': isSelected(task) }">
+      {{ task.id }}. {{ task.title }}
+      <div class="task-detail" *ngIf="selectedTaskId === task.id">
+        <app-task-detail [task]="task"></app-task-detail>
+      </div>
+    </div>
+  </li>
 </ul>
-
