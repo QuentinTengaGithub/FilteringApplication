@@ -21,14 +21,14 @@ li {
     list-style-type: none;
 }
 
-li:hover {
-    text-decoration: underline;
-}
-
 .selected-task {
     border:solid 1px red;
 }
 
 .selected-task:hover {
     text-decoration: none;
+}
+
+.task-title:hover {
+    text-decoration: underline;
 }
